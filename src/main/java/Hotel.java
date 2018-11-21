@@ -2,29 +2,28 @@ import java.util.ArrayList;
 
 public class Hotel {
 
-    private ArrayList<Room> hotelRooms;
-//    private ArrayList<Guest> hotelGuests;
+    private ArrayList<Room> hotelBedRooms;
+    private ArrayList<Room> hotelCommonRooms;
 
-    public Hotel(){
-        this.hotelRooms = new ArrayList<>(); //the rooms in the hotel
+    public Hotel() {
+        this.hotelBedRooms = new ArrayList<>(); //the rooms in the hotel that are beds
+        this.hotelCommonRooms = new ArrayList<>(); //the rooms in the hotel that are common
     }
 
 
     public int size() {
-        return this.hotelRooms.size();
+        return this.hotelBedRooms.size();
     }
 
-    public void addRoom(Room room) {
-        this.hotelRooms.add(room);
+    public void addBedRoom(Room room) {
+        this.hotelBedRooms.add(room);
     }
 
+    public void addCommonRoom(Room room) {
+        this.hotelCommonRooms.add(room);
+    }
 
-//    public int guestsInHotel() {
-//        return this.hotelGuests.size();
-//    }
-
-    public void addGuest(Guest guest, Room room){
-//        this.hotelGuests.add(guest);
+    public void addGuest(Guest guest, Room room) {
         room.addGuest(guest);
     }
 
@@ -32,13 +31,30 @@ public class Hotel {
         room.removeGuests();
     }
 
+
     public Booking createBooking(Guest guest, Room room, String roomName, int numberOfNights) {
-        room.addGuest(guest);
-        Booking booking = new Booking();
-        booking.bookRoom(roomName, numberOfNights);
-        return booking;
+
+        if (roomOccupancy() != 0) {
+            room.addGuest(guest);
+            Booking booking = new Booking();
+            booking.bookRoom(roomName, numberOfNights);
+            return booking;
+        }
+        return null;
     }
 
+
+
+    public int roomOccupancy() {
+        int freeRooms = 0;
+        for (int i = 0; i < size(); i++){
+            Room room =  hotelBedRooms.get(i);
+            if (room.checkRoomOccupancy() == 0 ){
+                freeRooms++;
+            }
+        }
+        return freeRooms;
+    }
 }
 
 

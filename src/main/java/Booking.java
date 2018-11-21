@@ -21,5 +21,7 @@ public class Booking {
     public int calculateBookingCost(int bookingCost) {
         return numberOfNights*bookingCost;
     }
+
+
 }
 

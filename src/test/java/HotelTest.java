@@ -7,6 +7,8 @@ public class HotelTest { //things on the class (blueprint)
 
     private Room conferenceRoom;
     private Room bedroom;
+    private Room bedroomTwo;
+    private Room bedroomThree;
     private Room diningRoom;
     private Guest guestOne;
     private Hotel hotelOne;
@@ -17,16 +19,20 @@ public class HotelTest { //things on the class (blueprint)
         hotelOne = new Hotel();
         conferenceRoom = new Room(1, 100, "Conference", 100);
         bedroom = new Room(2, 2, "Sexy Suite", 1001);
+        bedroomTwo = new Room(2, 1, "Lonely Room", 1001);
+        bedroomThree = new Room(2, 4, "Lovely Suite", 1001);
         diningRoom = new Room(3, 10, "Breakfast Room", 10.99);
-        hotelOne.addRoom(this.conferenceRoom);
-        hotelOne.addRoom(this.bedroom);
-        hotelOne.addRoom(this.diningRoom);
+        hotelOne.addCommonRoom(this.conferenceRoom);
+        hotelOne.addBedRoom(this.bedroom);
+        hotelOne.addCommonRoom(this.diningRoom);
+        hotelOne.addBedRoom(this.bedroomTwo);
+        hotelOne.addBedRoom(this.bedroomThree);
         guestOne = new Guest();
     }
 
     @Test //adding rooms to hotel
     public void canAddRoomToHotel() {
-        hotelOne.addRoom(this.bedroom);
+        hotelOne.addBedRoom(this.bedroom);
         assertEquals(4, hotelOne.size());
     }
 
@@ -50,5 +56,14 @@ public class HotelTest { //things on the class (blueprint)
         assertEquals(0, bedroom.checkRoomOccupancy());
 
     }
+
+    @Test //loop through bedrooms to understand capacity
+    public void checkRoomOccupancy(){
+        hotelOne.addGuest(guestOne, bedroom);
+        hotelOne.createBooking(guestOne, bedroom, "Sexy Suite", 5);
+        assertEquals(2, hotelOne.roomOccupancy());
+
+    }
+
 }
 
